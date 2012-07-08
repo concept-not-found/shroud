@@ -16,8 +16,23 @@ public class Pretender implements Serializable {
 		}
 	};
 
+	private static final MethodResolver DEFAULT_METHOD_RESOLVER = new MethodResolver() {
+		public Method resolve(final Object original, final Method target, final Object[] paremeters) {
+			for (final Method originalMethod : original.getClass().getMethods()) {
+				boolean methodNamesMatch = originalMethod.getName().equals(target.getName());
+				if (methodNamesMatch) {
+					boolean parametersMatch = Arrays.asList(originalMethod.getParameterTypes()).equals(Arrays.asList(target.getParameterTypes()));
+					if (parametersMatch) {
+						return originalMethod;
+					}
+				}
+			}
+			return null;
+		}
+	};
 	public final Object original;
 	public final List<Method> exposed;
+	public final MethodResolver methodResolver = DEFAULT_METHOD_RESOLVER;
 
 	public Pretender(final Object original, final List<Method> exposed) {
 		this.original = original;
@@ -33,27 +48,14 @@ public class Pretender implements Serializable {
 		return (T) Proxy.newProxyInstance(pretendInterface.getClassLoader(), new Class[] {
 			pretendInterface
 		}, new InvocationHandler() {
-			public Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable {
-				final Method originalMethod = findMatchingMethod(method);
+			public Object invoke(final Object proxy, final Method method, final Object[] parameters) throws Throwable {
+				final Method originalMethod = methodResolver.resolve(original, method, parameters);
 				if (originalMethod == null || !exposed.contains(originalMethod)) {
-					return unskilledHandler.handle(original, method, args);
+					return unskilledHandler.handle(original, method, parameters);
 				}
-				return originalMethod.invoke(original, args);
+				return originalMethod.invoke(original, parameters);
 			}
 		});
-	}
-
-	private Method findMatchingMethod(final Method method) {
-		for (final Method originalMethod : original.getClass().getMethods()) {
-			boolean methodNamesMatch = originalMethod.getName().equals(method.getName());
-			if (methodNamesMatch) {
-				boolean parametersMatch = Arrays.asList(originalMethod.getParameterTypes()).equals(Arrays.asList(method.getParameterTypes()));
-				if (parametersMatch) {
-					return originalMethod;
-				}
-			}
-		}
-		return null;
 	}
 
 }
