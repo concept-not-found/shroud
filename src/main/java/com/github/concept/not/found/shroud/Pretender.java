@@ -3,6 +3,7 @@ package com.github.concept.not.found.shroud;
 import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.List;
 
 import net.sf.cglib.proxy.InvocationHandler;
 import net.sf.cglib.proxy.Proxy;
@@ -16,13 +17,11 @@ public class Pretender implements Serializable {
 	};
 
 	public final Object original;
+	public final List<Method> exposed;
 
-	public Pretender(final Object original) {
+	public Pretender(final Object original, final List<Method> exposed) {
 		this.original = original;
-	}
-
-	public static <T> T pretend(final Object original, final Class<T> pretendInterface) {
-		return new Pretender(original).pretend(pretendInterface);
+		this.exposed = exposed;
 	}
 
 	public <T> T pretend(final Class<T> pretendInterface) {
@@ -36,7 +35,7 @@ public class Pretender implements Serializable {
 		}, new InvocationHandler() {
 			public Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable {
 				final Method originalMethod = findMatchingMethod(method);
-				if (originalMethod == null) {
+				if (originalMethod == null || !exposed.contains(originalMethod)) {
 					return unskilledHandler.handle(original, method, args);
 				}
 				return originalMethod.invoke(original, args);
