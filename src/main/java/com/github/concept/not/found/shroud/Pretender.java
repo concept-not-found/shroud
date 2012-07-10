@@ -8,14 +8,14 @@ import net.sf.cglib.proxy.Proxy;
 
 public class Pretender implements Serializable {
 
-	private final Object original;
+	private final Object[] originals;
 
 	private final MethodResolver methodResolver;
 
 	private final UnskilledHandler unskilledHandler;
 
-	public Pretender(final Object original, final MethodResolver methodResolver, final UnskilledHandler unskilledHandler) {
-		this.original = original;
+	public Pretender(final Object[] originals, final MethodResolver methodResolver, final UnskilledHandler unskilledHandler) {
+		this.originals = originals;
 		this.methodResolver = methodResolver;
 		this.unskilledHandler = unskilledHandler;
 	}
@@ -25,11 +25,15 @@ public class Pretender implements Serializable {
 			pretendInterface
 		}, new InvocationHandler() {
 			public Object invoke(final Object proxy, final Method method, final Object[] parameters) throws Throwable {
-				final Method originalMethod = methodResolver.resolve(original, method, parameters);
-				if (originalMethod == null) {
-					return unskilledHandler.handle(original, method, parameters);
+				for (final Object original : originals) {
+					final Method originalMethod = methodResolver.resolve(original, method, parameters);
+					if (originalMethod == null) {
+						continue;
+					}
+					return originalMethod.invoke(original, parameters);
 				}
-				return originalMethod.invoke(original, parameters);
+
+				return unskilledHandler.handle(originals, method, parameters);
 			}
 		}));
 	}

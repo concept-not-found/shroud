@@ -4,6 +4,6 @@ import java.lang.reflect.Method;
 
 public interface UnskilledHandler {
 
-	Object handle(Object original, Method method, Object[] args);
+	Object handle(Object[] originals, Method method, Object[] args);
 
 }
