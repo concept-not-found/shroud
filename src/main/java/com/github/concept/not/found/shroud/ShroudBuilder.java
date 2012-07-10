@@ -17,7 +17,9 @@ public class ShroudBuilder {
 	}
 
 	public <T> T as(final Class<T> interfaceClass) {
-		return (T) new Pretender(backingIntance, exposed).pretend(interfaceClass);
+		final ExposedMethodResolver methodResolver = new ExposedMethodResolver(exposed);
+		final DefaultUnskilledHandler unskilledHandler = new DefaultUnskilledHandler();
+		return new Pretender(backingIntance, methodResolver, unskilledHandler).pretend(interfaceClass);
 	}
 
 	public ShroudBuilder expose(final String methodName) {
