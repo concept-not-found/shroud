@@ -27,7 +27,7 @@ public class AdviceTest {
 	}
 
 	public class SoundEffects {
-		public String attack(final Object target, final Method method, final Object[] parameters) throws Exception {
+		public Object attack(final Object target, final Method method, final Object[] parameters) throws Exception {
 			return "pew pew " + method.invoke(target, parameters);
 		}
 	}
