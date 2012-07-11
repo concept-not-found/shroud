@@ -10,7 +10,7 @@ public class ShroudBuilder {
 	private final List<Object> backingInstances = new ArrayList<Object>();
 	private boolean defaultExpose = true;
 	private final List<Method> exposed = new ArrayList<Method>();
-	private final List<Object> chains = new ArrayList<Object>();
+	private final List<Object> advices = new ArrayList<Object>();
 
 	public ShroudBuilder(final Object... backingInstances) {
 		this.backingInstances.addAll(Arrays.asList(backingInstances));
@@ -21,7 +21,7 @@ public class ShroudBuilder {
 	}
 
 	public <T> T as(final Class<T> interfaceClass) {
-		final MethodInvoker methodInvoker = new ChainMethodInvoker(chains);
+		final MethodInvoker methodInvoker = new AdviceMethodInvoker(advices);
 		final ExposedMethodResolver methodResolver = new ExposedMethodResolver(exposed);
 		final DefaultUnskilledHandler unskilledHandler = new DefaultUnskilledHandler();
 		return new Pretender(backingInstances, methodInvoker, methodResolver, unskilledHandler).pretend(interfaceClass);
@@ -43,8 +43,8 @@ public class ShroudBuilder {
 		return this;
 	}
 
-	public ShroudBuilder chain(final Object chain) {
-		chains.add(chain);
+	public ShroudBuilder advisedBy(final Object advice) {
+		advices.add(advice);
 		return this;
 	}
 }

@@ -2,11 +2,13 @@ package com.github.concept.not.found;
 
 import static org.junit.Assert.assertEquals;
 
+import java.lang.reflect.Method;
+
 import org.junit.Test;
 
 import com.github.concept.not.found.shroud.Shroud;
 
-public class ChainTest {
+public class AdviceTest {
 
 	public interface Animal {
 		String speak();
@@ -25,14 +27,14 @@ public class ChainTest {
 	}
 
 	public class SoundEffects {
-		public String attack(final String attack) {
-			return "pew pew " + attack;
+		public String attack(final Object target, final Method method, final Object[] parameters) throws Exception {
+			return "pew pew " + method.invoke(target, parameters);
 		}
 	}
 
 	@Test
 	public void test() {
-		final Animal animal = Shroud.shroud(new Dragon()).chain(new SoundEffects()).as(Animal.class);
+		final Animal animal = Shroud.shroud(new Dragon()).advisedBy(new SoundEffects()).as(Animal.class);
 		assertEquals("speak should be unaffected", "rawr", animal.speak());
 		assertEquals("pew pew flames", animal.attack());
 	}
