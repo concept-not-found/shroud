@@ -12,8 +12,8 @@ public class ExposedMethodResolver extends DefaultMethodResolver {
 	}
 
 	@Override
-	public Method resolve(final Object original, final Method target, final Object[] paremeters) {
-		final Method defaultMethod = super.resolve(original, target, paremeters);
+	public Method resolve(final Object target, final Method method, final Object[] parameters) {
+		final Method defaultMethod = super.resolve(target, method, parameters);
 		if (defaultMethod == null) {
 			return null;
 		}

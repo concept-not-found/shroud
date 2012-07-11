@@ -5,13 +5,13 @@ import java.util.Arrays;
 
 public class DefaultMethodResolver implements MethodResolver {
 
-	public Method resolve(final Object original, final Method target, final Object[] paremeters) {
-		for (final Method originalMethod : original.getClass().getMethods()) {
-			boolean methodNamesMatch = originalMethod.getName().equals(target.getName());
+	public Method resolve(final Object target, final Method method, final Object[] parameters) {
+		for (final Method targetMethod : target.getClass().getMethods()) {
+			boolean methodNamesMatch = targetMethod.getName().equals(method.getName());
 			if (methodNamesMatch) {
-				boolean parametersMatch = Arrays.asList(originalMethod.getParameterTypes()).equals(Arrays.asList(target.getParameterTypes()));
+				boolean parametersMatch = Arrays.asList(targetMethod.getParameterTypes()).equals(Arrays.asList(method.getParameterTypes()));
 				if (parametersMatch) {
-					return originalMethod;
+					return targetMethod;
 				}
 			}
 		}

@@ -4,5 +4,5 @@ import java.lang.reflect.Method;
 
 public interface MethodResolver {
 
-	Method resolve(Object original, Method target, Object[] paremeters);
+	Method resolve(Object target, Method method, Object[] parameters);
 }

@@ -7,12 +7,13 @@ import java.util.List;
 
 public class ShroudBuilder {
 
-	private final Object[] backingInstances;
+	private final List<Object> backingInstances = new ArrayList<Object>();
 	private boolean defaultExpose = true;
 	private final List<Method> exposed = new ArrayList<Method>();
+	private final List<Object> chains = new ArrayList<Object>();
 
 	public ShroudBuilder(final Object... backingInstances) {
-		this.backingInstances = backingInstances;
+		this.backingInstances.addAll(Arrays.asList(backingInstances));
 		for (final Object backingInstance : backingInstances) {
 			final Method[] methods = backingInstance.getClass().getMethods();
 			exposed.addAll(Arrays.asList(methods));
@@ -20,9 +21,10 @@ public class ShroudBuilder {
 	}
 
 	public <T> T as(final Class<T> interfaceClass) {
+		final MethodInvoker methodInvoker = new ChainMethodInvoker(chains);
 		final ExposedMethodResolver methodResolver = new ExposedMethodResolver(exposed);
 		final DefaultUnskilledHandler unskilledHandler = new DefaultUnskilledHandler();
-		return new Pretender(backingInstances, methodResolver, unskilledHandler).pretend(interfaceClass);
+		return new Pretender(backingInstances, methodInvoker, methodResolver, unskilledHandler).pretend(interfaceClass);
 	}
 
 	public ShroudBuilder expose(final String methodName) {
@@ -38,6 +40,11 @@ public class ShroudBuilder {
 				}
 			}
 		}
+		return this;
+	}
+
+	public ShroudBuilder chain(final Object chain) {
+		chains.add(chain);
 		return this;
 	}
 }

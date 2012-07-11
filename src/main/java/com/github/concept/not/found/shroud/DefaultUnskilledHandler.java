@@ -1,10 +1,11 @@
 package com.github.concept.not.found.shroud;
 
 import java.lang.reflect.Method;
+import java.util.List;
 
 public class DefaultUnskilledHandler implements UnskilledHandler {
 
-	public Object handle(final Object[] originals, final Method method, final Object[] args) {
+	public Object handle(final List<Object> originals, final Method method, final Object[] args) {
 		throw new UnsupportedOperationException(method.toString());
 	}
 }
