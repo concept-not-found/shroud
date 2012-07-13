@@ -4,10 +4,15 @@ import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.List;
 
-import net.sf.cglib.proxy.InvocationHandler;
-import net.sf.cglib.proxy.Proxy;
+import com.github.concept.not.found.shroud.method.handler.UnskilledHandler;
+import com.github.concept.not.found.shroud.method.invoker.MethodInvoker;
+import com.github.concept.not.found.shroud.method.resolver.MethodResolver;
+import com.github.concept.not.found.shroud.proxy.InvocationHandler;
+import com.github.concept.not.found.shroud.proxy.Proxy;
 
 public class Pretender implements Serializable {
+
+	private final Proxy proxy;
 
 	private final List<Object> originals;
 
@@ -17,7 +22,8 @@ public class Pretender implements Serializable {
 
 	private final UnskilledHandler unskilledHandler;
 
-	public Pretender(final List<Object> originals, final MethodInvoker methodInvoker, final MethodResolver methodResolver, final UnskilledHandler unskilledHandler) {
+	public Pretender(final Proxy proxy, final List<Object> originals, final MethodInvoker methodInvoker, final MethodResolver methodResolver, final UnskilledHandler unskilledHandler) {
+		this.proxy = proxy;
 		this.originals = originals;
 		this.methodInvoker = methodInvoker;
 		this.methodResolver = methodResolver;
@@ -25,10 +31,10 @@ public class Pretender implements Serializable {
 	}
 
 	public <T> T pretend(final Class<T> pretendInterface) {
-		return pretendInterface.cast(Proxy.newProxyInstance(pretendInterface.getClassLoader(), new Class[] {
+		return pretendInterface.cast(proxy.newProxyInstance(pretendInterface.getClassLoader(), new Class[] {
 			pretendInterface
 		}, new InvocationHandler() {
-			public Object invoke(final Object proxy, final Method method, final Object[] parameters) throws Throwable {
+			public Object invoke(final Object proxyInstance, final Method method, final Object[] parameters) throws Throwable {
 				for (final Object original : originals) {
 					final Method originalMethod = methodResolver.resolve(original, method, parameters);
 					if (originalMethod == null) {
