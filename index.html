@@ -1,0 +1,195 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Shroud by concept-not-found</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Shroud</h1>
+        <p></p>
+
+        <p class="view"><a href="https://github.com/concept-not-found/shroud">View the Project on GitHub <small>concept-not-found/shroud</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/concept-not-found/shroud/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/concept-not-found/shroud/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/concept-not-found/shroud">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>Shroud</h1>
+
+<h2>Shroud is a runtime object manipulation library for Java</h2>
+
+<h2>Features</h2>
+
+<ul>
+<li>Shroud any object with a new interface, including final third-party classes!</li>
+<li>Combine runtime objects into a single interface without having to implement the interface by hand</li>
+<li>Object delegation/composition in a single line of code</li>
+<li>Split monolith interfaces</li>
+<li>AOP arounds at runtime</li>
+<li>Remapping methods</li>
+<li>Easy to use fluent builder</li>
+</ul><h2>Installation</h2>
+
+<p>Shroud is a Maven project and is ready for its first release.  We are working through the process on getting the first release into the central Maven repo.  In the meantime clone down the project and <code>mvn install</code> it into your own repo.</p>
+
+<h2>Examples</h2>
+
+<h3>Implement interfaces at runtime</h3>
+
+<pre><code>public interface Animal {
+    String speak();
+}
+public class Dragon {
+    public String speak() {
+        return "rawr";
+    }
+}
+...
+Animal animal = Shroud.shroud(new Dragon()).as(Animal.class);
+assertEquals("rawr", animal.speak());
+</code></pre>
+
+<h3>Bang two objects together</h3>
+
+<pre><code>public interface Animal {
+    String speak();
+    String attack();
+}
+public class Dragon {
+    public String attack() {
+        return "flames";
+    }
+
+}
+public class Kitten {
+    public String speak() {
+        return "meow";
+    }
+}
+...
+Animal animal = Shroud.shroud(new Dragon(), new Kitten()).as(Animal.class);
+assertEquals("flames", animal.attack());
+assertEquals("meow", animal.speak());
+</code></pre>
+
+<h3>Say fork you to any object</h3>
+
+<pre><code>public interface Getter {
+    String getAnswer();
+}
+public interface Setter {
+    void setAnswer(String answer);
+}
+public class Computer {
+    private String answer = "unknown";
+    public String getAnswer() {
+        return answer;
+    }
+    public void setAnswer(final String answer) {
+        this.answer = answer;
+    }
+}
+...
+Computer computer = new Computer();
+Getter getter = Shroud.shroud(computer).as(Getter.class);
+Setter setter = Shroud.shroud(computer).as(Setter.class);
+setter.setAnswer("42");
+assertEquals("42", getter.getAnswer());
+</code></pre>
+
+<h3>Aspect-oriented programming around advice</h3>
+
+<pre><code>public interface Animal {
+    String attack();
+}
+public class Dragon {
+    public String attack() {
+        return "flames";
+    }
+}
+public class SoundEffects {
+    public Object attack(final Object target, final Method method, final Object[] parameters) throws Throwable {
+        return "pew pew " + method.invoke(target, parameters);
+    }
+}
+...
+Animal animal = Shroud.shroud(new Dragon()).advisedBy(new SoundEffects()).as(Animal.class);
+assertEquals("pew pew flames", animal.attack());
+</code></pre>
+
+<h3>Map methods from interface to implementation</h3>
+
+<pre><code>public interface Duck {
+    String quack();
+}
+public class Dragon {
+    public String speak() {
+        return "rawr";
+    }
+}
+...
+Duck duck = Shroud.shroud(new Dragon()).map("quack", "speak").as(Duck.class);
+assertEquals("rawr", duck.quack());
+</code></pre>
+
+<h3>Reverse method implementations</h3>
+
+<pre><code>public interface Person {
+    String talk();
+    String eat();
+}
+public class Lando {
+    public String talk() {
+        return "words";
+    }
+    public String eat() {
+        return "baloney";
+    }
+}
+...
+Person person = Shroud.shroud(new Lando()).map("talk", "eat").map("eat", "talk").as(Person.class);
+assertEquals("baloney", person.talk());
+assertEquals("words", person.eat());
+</code></pre>
+
+<h2>Copyright and License</h2>
+
+<pre>
+Copyright 2012 Ronald Chen
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+</pre>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/concept-not-found">concept-not-found</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
