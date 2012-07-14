@@ -1,4 +1,4 @@
-# Shroud
+![Shroud](https://github.com/concept-not-found/shroud/raw/gh-pages/images/shroud-logo.png)
 
 ## Shroud is a runtime object manipulation library for Java
 
