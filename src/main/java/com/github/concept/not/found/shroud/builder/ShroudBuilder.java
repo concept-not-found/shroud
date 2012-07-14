@@ -13,6 +13,7 @@ import com.github.concept.not.found.shroud.method.handler.UnskilledHandler;
 import com.github.concept.not.found.shroud.method.invoker.AdviceMethodInvoker;
 import com.github.concept.not.found.shroud.method.invoker.MethodInvoker;
 import com.github.concept.not.found.shroud.method.resolver.ChainedMethodResolver;
+import com.github.concept.not.found.shroud.method.resolver.DefaultMethodResolver;
 import com.github.concept.not.found.shroud.method.resolver.ExposedMethodResolver;
 import com.github.concept.not.found.shroud.method.resolver.MapMethodResolver;
 import com.github.concept.not.found.shroud.method.resolver.MethodResolver;
@@ -41,7 +42,7 @@ public class ShroudBuilder {
 	public <T> T as(final Class<T> interfaceClass) {
 		final Proxy proxy = new CglibProxy();
 		final MethodInvoker methodInvoker = new AdviceMethodInvoker(advices);
-		final MethodResolver methodResolver = new ChainedMethodResolver(new ExposedMethodResolver(exposed), new MapMethodResolver(maps));
+		final MethodResolver methodResolver = new ExposedMethodResolver(new ChainedMethodResolver(new MapMethodResolver(maps), new DefaultMethodResolver()), exposed);
 		final UnskilledHandler unskilledHandler = new DefaultUnskilledHandler();
 		return new Pretender(proxy, backingInstances, methodInvoker, methodResolver, unskilledHandler).pretend(interfaceClass);
 	}

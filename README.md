@@ -105,6 +105,24 @@ Shroud is a Maven project and is ready for its first release.  We are working th
 	Duck duck = Shroud.shroud(new Dragon()).map("quack", "speak").as(Duck.class);
 	assertEquals("rawr", duck.quack());
 
+### Reverse method implementations
+	public interface Person {
+		String talk();
+		String eat();
+	}
+	public class Lando {
+		public String talk() {
+			return "words";
+		}
+		public String eat() {
+			return "baloney";
+		}
+	}
+	...
+	Person person = Shroud.shroud(new Lando()).map("talk", "eat").map("eat", "talk").as(Person.class);
+	assertEquals("baloney", person.talk());
+	assertEquals("words", person.eat());
+
 ##Copyright and License
 <pre>
 Copyright 2012 Ronald Chen

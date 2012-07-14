@@ -7,17 +7,19 @@ import java.util.List;
 /**
  * Extends the {@link DefaultMethodResolver} to limit which methods are exposed.
  */
-public class ExposedMethodResolver extends DefaultMethodResolver {
+public class ExposedMethodResolver implements MethodResolver {
+
+	private final MethodResolver methodResolver;
 
 	private final List<Method> exposed = new ArrayList<Method>();
 
-	public ExposedMethodResolver(final List<Method> exposed) {
+	public ExposedMethodResolver(final MethodResolver methodResolver, final List<Method> exposed) {
+		this.methodResolver = methodResolver;
 		this.exposed.addAll(exposed);
 	}
 
-	@Override
 	public Method resolve(final Object target, final Method method, final Object[] parameters) {
-		final Method defaultMethod = super.resolve(target, method, parameters);
+		final Method defaultMethod = methodResolver.resolve(target, method, parameters);
 		if (defaultMethod == null) {
 			return null;
 		}
