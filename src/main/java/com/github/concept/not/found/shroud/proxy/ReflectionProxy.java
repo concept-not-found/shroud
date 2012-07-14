@@ -2,7 +2,9 @@ package com.github.concept.not.found.shroud.proxy;
 
 import java.lang.reflect.Method;
 
-
+/**
+ * Implements {@link Proxy} with the standard Java reflection {@link java.lang.reflect.Proxy}.
+ */
 public class ReflectionProxy implements Proxy {
 
 	public Object newProxyInstance(final ClassLoader classLoader, final Class<?>[] classes, final InvocationHandler invocationHandler) {

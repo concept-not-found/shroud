@@ -10,6 +10,14 @@ import com.github.concept.not.found.shroud.method.resolver.MethodResolver;
 import com.github.concept.not.found.shroud.proxy.InvocationHandler;
 import com.github.concept.not.found.shroud.proxy.Proxy;
 
+/**
+ * A pretender can pretend to be any interface and is the core of this library.
+ * The implementation of the pretended interfaces are backed by one or more objects.
+ * On how methods on the interface are mapped to objects is handled by the {@link MethodResolver} interface.
+ * Once a suitable method has been found it is invoked by the {@link MethodInvoker} interface.
+ * If no suitable methods are found the implementation is handled by {@link UnskilledHandler}.
+ * At the very heart of this implementation the pretending of the interfaces is provided by {@link Proxy}.
+ */
 public class Pretender implements Serializable {
 
 	private final Proxy proxy;

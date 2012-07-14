@@ -1,14 +1,18 @@
 package com.github.concept.not.found.shroud.method.resolver;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Extends the {@link DefaultMethodResolver} to limit which methods are exposed.
+ */
 public class ExposedMethodResolver extends DefaultMethodResolver {
 
-	private final List<Method> exposed;
+	private final List<Method> exposed = new ArrayList<Method>();
 
 	public ExposedMethodResolver(final List<Method> exposed) {
-		this.exposed = exposed;
+		this.exposed.addAll(exposed);
 	}
 
 	@Override

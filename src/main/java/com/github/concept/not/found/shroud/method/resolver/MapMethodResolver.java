@@ -5,6 +5,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Maps method names of pretended interface to target method names.
+ */
 public class MapMethodResolver implements MethodResolver {
 
 	private final Map<String, String> maps = new HashMap<String, String>();

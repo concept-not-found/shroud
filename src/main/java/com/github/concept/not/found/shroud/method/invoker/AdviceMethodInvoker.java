@@ -4,6 +4,10 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Delegates invocation to advice if available, otherwise just invokes method direction.
+ * Advice will be used if it contains a matching method name. See unit test for usage.
+ */
 public class AdviceMethodInvoker implements MethodInvoker {
 
 	private final List<Object> advices = new ArrayList<Object>();

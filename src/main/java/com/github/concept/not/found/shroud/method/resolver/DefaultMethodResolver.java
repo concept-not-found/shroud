@@ -3,6 +3,9 @@ package com.github.concept.not.found.shroud.method.resolver;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
+/**
+ * The default {@link MethodResolver} will exact match on method name and parameter types.
+ */
 public class DefaultMethodResolver implements MethodResolver {
 
 	public Method resolve(final Object target, final Method method, final Object[] parameters) {

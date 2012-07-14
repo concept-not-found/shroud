@@ -19,6 +19,9 @@ import com.github.concept.not.found.shroud.method.resolver.MethodResolver;
 import com.github.concept.not.found.shroud.proxy.CglibProxy;
 import com.github.concept.not.found.shroud.proxy.Proxy;
 
+/**
+ * Provides an fluent builder for this library.
+ */
 public class ShroudBuilder {
 
 	private final List<Object> backingInstances = new ArrayList<Object>();

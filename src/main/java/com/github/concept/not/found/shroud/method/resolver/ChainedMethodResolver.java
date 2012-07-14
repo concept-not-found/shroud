@@ -5,6 +5,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Chains a series of {@link MethodResolver}s.
+ * 
+ * Will return the first non null method.
+ */
 public class ChainedMethodResolver implements MethodResolver {
 
 	private final List<MethodResolver> methodResolvers = new ArrayList<MethodResolver>();
