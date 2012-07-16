@@ -2,6 +2,9 @@
 
 ## Shroud is a runtime object manipulation library for Java
 
+## Motivation
+Stop writing brain dead dumb delegation code and remix objects with minimal code.
+
 ## Features
 
  - Shroud any object with a new interface, including final third-party classes!
@@ -9,7 +12,7 @@
  - Object delegation/composition in a single line of code
  - Split monolith interfaces
  - AOP arounds at runtime
- - Remapping methods
+ - Adapt methods
  - Easy to use fluent builder
 
 ## Installation
@@ -18,6 +21,7 @@ Shroud is a Maven project and is ready for its first release.  We are working th
 ## Examples
 
 ### Implement interfaces at runtime
+```java
 	public interface Animal {
 		String speak();
 	}
@@ -29,8 +33,10 @@ Shroud is a Maven project and is ready for its first release.  We are working th
 	...
 	Animal animal = Shroud.shroud(new Dragon()).as(Animal.class);
 	assertEquals("rawr", animal.speak());
+```
 
 ### Bang two objects together
+```java
 	public interface Animal {
 		String speak();
 		String attack();
@@ -50,8 +56,10 @@ Shroud is a Maven project and is ready for its first release.  We are working th
 	Animal animal = Shroud.shroud(new Dragon(), new Kitten()).as(Animal.class);
 	assertEquals("flames", animal.attack());
 	assertEquals("meow", animal.speak());
+```
 
 ### Say fork you to any object
+```java
 	public interface Getter {
 		String getAnswer();
 	}
@@ -73,8 +81,10 @@ Shroud is a Maven project and is ready for its first release.  We are working th
 	Setter setter = Shroud.shroud(computer).as(Setter.class);
 	setter.setAnswer("42");
 	assertEquals("42", getter.getAnswer());
+```
 
 ### Aspect-oriented programming around advice
+```java
 	public interface Animal {
 		String attack();
 	}
@@ -91,8 +101,10 @@ Shroud is a Maven project and is ready for its first release.  We are working th
 	...
 	Animal animal = Shroud.shroud(new Dragon()).advisedBy(new SoundEffects()).as(Animal.class);
 	assertEquals("pew pew flames", animal.attack());
+```
 
-### Map methods from interface to implementation
+### Adapter pattern
+```java
 	public interface Duck {
 		String quack();
 	}
@@ -104,24 +116,7 @@ Shroud is a Maven project and is ready for its first release.  We are working th
 	...
 	Duck duck = Shroud.shroud(new Dragon()).map("quack", "speak").as(Duck.class);
 	assertEquals("rawr", duck.quack());
-
-### Reverse method implementations
-	public interface Person {
-		String talk();
-		String eat();
-	}
-	public class Lando {
-		public String talk() {
-			return "words";
-		}
-		public String eat() {
-			return "baloney";
-		}
-	}
-	...
-	Person person = Shroud.shroud(new Lando()).map("talk", "eat").map("eat", "talk").as(Person.class);
-	assertEquals("baloney", person.talk());
-	assertEquals("words", person.eat());
+```
 
 ##Copyright and License
 <pre>
