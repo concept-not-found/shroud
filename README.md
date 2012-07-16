@@ -3,7 +3,7 @@
 ## Shroud is a runtime object manipulation library for Java
 
 ## Motivation
-Stop writing brain dead dumb delegation code and remix objects with minimal code.
+Stop writing brain dead delegation code and remix objects with minimal code.
 
 ## Features
 
