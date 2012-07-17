@@ -1,0 +1,4 @@
+#!/bin/bash
+
+wget -O- https://github.com/concept-not-found/shroud/blob/master/README.md | sed -n '/<article/,/article>/p' > README.md.html.snippet
+

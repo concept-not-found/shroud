@@ -1,0 +1,175 @@
+    <article class="markdown-body entry-content" itemprop="mainContentOfPage"><p><a href="http://github.com/concept-not-found/shroud"><img src="https://github.com/concept-not-found/shroud/raw/gh-pages/images/shroud-logo.png" alt="Shroud" style="max-width:100%;"></a></p>
+
+<h2>
+<a name="shroud-is-a-runtime-object-manipulation-library-for-java" class="anchor" href="#shroud-is-a-runtime-object-manipulation-library-for-java"><span class="mini-icon mini-icon-link"></span></a>Shroud is a runtime object manipulation library for Java</h2>
+
+<h2>
+<a name="motivation" class="anchor" href="#motivation"><span class="mini-icon mini-icon-link"></span></a>Motivation</h2>
+
+<p>Stop writing brain dead delegation code and remix objects with minimal code.</p>
+
+<h2>
+<a name="features" class="anchor" href="#features"><span class="mini-icon mini-icon-link"></span></a>Features</h2>
+
+<ul>
+<li>Shroud any object with a new interface, including final third-party classes!</li>
+<li>Combine runtime objects into a single interface without having to implement the interface by hand</li>
+<li>Object delegation/composition in a single line of code</li>
+<li>Split monolith interfaces</li>
+<li>AOP arounds at runtime</li>
+<li>Adapt methods</li>
+<li>Easy to use fluent builder</li>
+</ul><h2>
+<a name="installation" class="anchor" href="#installation"><span class="mini-icon mini-icon-link"></span></a>Installation</h2>
+
+<p>Shroud is a <a href="http://maven.apache.org/">Maven</a> project.</p>
+
+<div class="highlight">
+<pre><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>com.github.concept-not-found<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>shroud<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>1<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</pre>
+</div>
+
+
+<h2>
+<a name="examples" class="anchor" href="#examples"><span class="mini-icon mini-icon-link"></span></a>Examples</h2>
+
+<h3>
+<a name="implement-interfaces-at-runtime" class="anchor" href="#implement-interfaces-at-runtime"><span class="mini-icon mini-icon-link"></span></a>Implement interfaces at runtime</h3>
+
+<div class="highlight">
+<pre>    <span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Animal</span> <span class="o">{</span>
+        <span class="n">String</span> <span class="nf">speak</span><span class="o">();</span>
+    <span class="o">}</span>
+    <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Dragon</span> <span class="o">{</span>
+        <span class="kd">public</span> <span class="n">String</span> <span class="nf">speak</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="s">"rawr"</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="o">...</span>
+    <span class="n">Animal</span> <span class="n">animal</span> <span class="o">=</span> <span class="n">Shroud</span><span class="o">.</span><span class="na">shroud</span><span class="o">(</span><span class="k">new</span> <span class="n">Dragon</span><span class="o">()).</span><span class="na">as</span><span class="o">(</span><span class="n">Animal</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+    <span class="n">assertEquals</span><span class="o">(</span><span class="s">"rawr"</span><span class="o">,</span> <span class="n">animal</span><span class="o">.</span><span class="na">speak</span><span class="o">());</span>
+</pre>
+</div>
+
+
+<h3>
+<a name="bang-two-objects-together" class="anchor" href="#bang-two-objects-together"><span class="mini-icon mini-icon-link"></span></a>Bang two objects together</h3>
+
+<div class="highlight">
+<pre>    <span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Animal</span> <span class="o">{</span>
+        <span class="n">String</span> <span class="nf">speak</span><span class="o">();</span>
+        <span class="n">String</span> <span class="nf">attack</span><span class="o">();</span>
+    <span class="o">}</span>
+    <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Dragon</span> <span class="o">{</span>
+        <span class="kd">public</span> <span class="n">String</span> <span class="nf">attack</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="s">"flames"</span><span class="o">;</span>
+        <span class="o">}</span>
+
+    <span class="o">}</span>
+    <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Kitten</span> <span class="o">{</span>
+        <span class="kd">public</span> <span class="n">String</span> <span class="nf">speak</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="s">"meow"</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="o">...</span>
+    <span class="n">Animal</span> <span class="n">animal</span> <span class="o">=</span> <span class="n">Shroud</span><span class="o">.</span><span class="na">shroud</span><span class="o">(</span><span class="k">new</span> <span class="n">Dragon</span><span class="o">(),</span> <span class="k">new</span> <span class="n">Kitten</span><span class="o">()).</span><span class="na">as</span><span class="o">(</span><span class="n">Animal</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+    <span class="n">assertEquals</span><span class="o">(</span><span class="s">"flames"</span><span class="o">,</span> <span class="n">animal</span><span class="o">.</span><span class="na">attack</span><span class="o">());</span>
+    <span class="n">assertEquals</span><span class="o">(</span><span class="s">"meow"</span><span class="o">,</span> <span class="n">animal</span><span class="o">.</span><span class="na">speak</span><span class="o">());</span>
+</pre>
+</div>
+
+
+<h3>
+<a name="say-fork-you-to-any-object" class="anchor" href="#say-fork-you-to-any-object"><span class="mini-icon mini-icon-link"></span></a>Say fork you to any object</h3>
+
+<div class="highlight">
+<pre>    <span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Getter</span> <span class="o">{</span>
+        <span class="n">String</span> <span class="nf">getAnswer</span><span class="o">();</span>
+    <span class="o">}</span>
+    <span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Setter</span> <span class="o">{</span>
+        <span class="kt">void</span> <span class="nf">setAnswer</span><span class="o">(</span><span class="n">String</span> <span class="n">answer</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Computer</span> <span class="o">{</span>
+        <span class="kd">private</span> <span class="n">String</span> <span class="n">answer</span> <span class="o">=</span> <span class="s">"unknown"</span><span class="o">;</span>
+        <span class="kd">public</span> <span class="n">String</span> <span class="nf">getAnswer</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">answer</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setAnswer</span><span class="o">(</span><span class="kd">final</span> <span class="n">String</span> <span class="n">answer</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">answer</span> <span class="o">=</span> <span class="n">answer</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="o">...</span>
+    <span class="n">Computer</span> <span class="n">computer</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Computer</span><span class="o">();</span>
+    <span class="n">Getter</span> <span class="n">getter</span> <span class="o">=</span> <span class="n">Shroud</span><span class="o">.</span><span class="na">shroud</span><span class="o">(</span><span class="n">computer</span><span class="o">).</span><span class="na">as</span><span class="o">(</span><span class="n">Getter</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+    <span class="n">Setter</span> <span class="n">setter</span> <span class="o">=</span> <span class="n">Shroud</span><span class="o">.</span><span class="na">shroud</span><span class="o">(</span><span class="n">computer</span><span class="o">).</span><span class="na">as</span><span class="o">(</span><span class="n">Setter</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+    <span class="n">setter</span><span class="o">.</span><span class="na">setAnswer</span><span class="o">(</span><span class="s">"42"</span><span class="o">);</span>
+    <span class="n">assertEquals</span><span class="o">(</span><span class="s">"42"</span><span class="o">,</span> <span class="n">getter</span><span class="o">.</span><span class="na">getAnswer</span><span class="o">());</span>
+</pre>
+</div>
+
+
+<h3>
+<a name="aspect-oriented-programming-around-advice" class="anchor" href="#aspect-oriented-programming-around-advice"><span class="mini-icon mini-icon-link"></span></a>Aspect-oriented programming around advice</h3>
+
+<div class="highlight">
+<pre>    <span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Animal</span> <span class="o">{</span>
+        <span class="n">String</span> <span class="nf">attack</span><span class="o">();</span>
+    <span class="o">}</span>
+    <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Dragon</span> <span class="o">{</span>
+        <span class="kd">public</span> <span class="n">String</span> <span class="nf">attack</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="s">"flames"</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="kd">public</span> <span class="kd">class</span> <span class="nc">SoundEffects</span> <span class="o">{</span>
+        <span class="kd">public</span> <span class="n">Object</span> <span class="nf">attack</span><span class="o">(</span><span class="kd">final</span> <span class="n">Object</span> <span class="n">target</span><span class="o">,</span> <span class="kd">final</span> <span class="n">Method</span> <span class="n">method</span><span class="o">,</span> <span class="kd">final</span> <span class="n">Object</span><span class="o">[]</span> <span class="n">parameters</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Throwable</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="s">"pew pew "</span> <span class="o">+</span> <span class="n">method</span><span class="o">.</span><span class="na">invoke</span><span class="o">(</span><span class="n">target</span><span class="o">,</span> <span class="n">parameters</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="o">...</span>
+    <span class="n">Animal</span> <span class="n">animal</span> <span class="o">=</span> <span class="n">Shroud</span><span class="o">.</span><span class="na">shroud</span><span class="o">(</span><span class="k">new</span> <span class="n">Dragon</span><span class="o">()).</span><span class="na">advisedBy</span><span class="o">(</span><span class="k">new</span> <span class="n">SoundEffects</span><span class="o">()).</span><span class="na">as</span><span class="o">(</span><span class="n">Animal</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+    <span class="n">assertEquals</span><span class="o">(</span><span class="s">"pew pew flames"</span><span class="o">,</span> <span class="n">animal</span><span class="o">.</span><span class="na">attack</span><span class="o">());</span>
+</pre>
+</div>
+
+
+<h3>
+<a name="adapter-pattern" class="anchor" href="#adapter-pattern"><span class="mini-icon mini-icon-link"></span></a>Adapter pattern</h3>
+
+<div class="highlight">
+<pre>    <span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Duck</span> <span class="o">{</span>
+        <span class="n">String</span> <span class="nf">quack</span><span class="o">();</span>
+    <span class="o">}</span>
+    <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Dragon</span> <span class="o">{</span>
+        <span class="kd">public</span> <span class="n">String</span> <span class="nf">speak</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="s">"rawr"</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="o">...</span>
+    <span class="n">Duck</span> <span class="n">duck</span> <span class="o">=</span> <span class="n">Shroud</span><span class="o">.</span><span class="na">shroud</span><span class="o">(</span><span class="k">new</span> <span class="n">Dragon</span><span class="o">()).</span><span class="na">map</span><span class="o">(</span><span class="s">"quack"</span><span class="o">,</span> <span class="s">"speak"</span><span class="o">).</span><span class="na">as</span><span class="o">(</span><span class="n">Duck</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+    <span class="n">assertEquals</span><span class="o">(</span><span class="s">"rawr"</span><span class="o">,</span> <span class="n">duck</span><span class="o">.</span><span class="na">quack</span><span class="o">());</span>
+</pre>
+</div>
+
+
+<h2>
+<a name="copyright-and-license" class="anchor" href="#copyright-and-license"><span class="mini-icon mini-icon-link"></span></a>Copyright and License</h2>
+
+<pre>
+Copyright 2012 Ronald Chen
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+</pre></article>
