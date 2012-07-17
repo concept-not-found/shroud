@@ -16,7 +16,14 @@ Stop writing brain dead delegation code and remix objects with minimal code.
  - Easy to use fluent builder
 
 ## Installation
-Shroud is a Maven project and is ready for its first release.  We are working through the process on getting the first release into the central Maven repo.  In the meantime clone down the project and `mvn install` it into your own repo.
+Shroud is a [Maven](http://maven.apache.org/) project.
+```xml
+<dependency>
+    <groupId>com.github.concept-not-found</groupId>
+    <artifactId>shroud</artifactId>
+    <version>1</version>
+</dependency>
+```
 
 ## Examples
 
