@@ -52,7 +52,6 @@ Shroud is a [Maven](http://maven.apache.org/) project.
 		public String attack() {
 			return "flames";
 		}
-
 	}
 	public class Kitten {
 		public String speak() {
