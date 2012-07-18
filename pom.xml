@@ -29,8 +29,8 @@
 		<connection>scm:git:git://github.com/concept-not-found/shroud.git</connection>
 		<developerConnection>scm:git:git@github.com:concept-not-found/shroud.git</developerConnection>
 		<url>http://github.com/concept-not-found/shroud</url>
-	  <tag>HEAD</tag>
-  </scm>
+		<tag>HEAD</tag>
+	</scm>
 	<dependencies>
 		<dependency>
 			<groupId>commons-lang</groupId>
@@ -57,6 +57,12 @@
 			<groupId>cglib</groupId>
 			<artifactId>cglib</artifactId>
 			<version>2.2.2</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.japex</groupId>
+			<artifactId>japex</artifactId>
+			<version>1.2.4</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 	<build>
@@ -110,6 +116,46 @@
 								</goals>
 							</execution>
 						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>performance-test</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.sun.japex</groupId>
+						<artifactId>japex-maven-plugin</artifactId>
+						<version>1.2.4</version>
+						<executions>
+							<execution>
+								<id>run-japex</id>
+								<goals>
+									<goal>japex</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<japexConfig>
+								<testSuite name="ParsingPerformance" xmlns="http://www.sun.com/japex/testSuite">
+									<param name="japex.namedClassPath" value="maven.test.classpath" />
+									<param name="japex.resultUnit" value="ms" />
+									<param name="japex.warmupIterations" value="10000" />
+									<param name="japex.runIterations" value="10000000" />
+									<driver name="ControlMethodInvocation">
+										<param name="japex.driverClass" value="com.github.concept.not.found.shroud.performance.ControlMethodInvocation" />
+									</driver>
+									<driver name="CglibMethodInvocation">
+										<param name="japex.driverClass" value="com.github.concept.not.found.shroud.performance.CglibMethodInvocation" />
+									</driver>
+									<driver name="JavaReflectionMethodInvocation">
+										<param name="japex.driverClass" value="com.github.concept.not.found.shroud.performance.JavaReflectionMethodInvocation" />
+									</driver>
+									<testCase name="compare method invocation performance" />
+								</testSuite>
+							</japexConfig>
+						</configuration>
 					</plugin>
 				</plugins>
 			</build>
