@@ -138,7 +138,7 @@
 						</executions>
 						<configuration>
 							<japexConfig>
-								<testSuite name="ParsingPerformance" xmlns="http://www.sun.com/japex/testSuite">
+								<testSuite name="MethodInvocationPerformance" xmlns="http://www.sun.com/japex/testSuite">
 									<param name="japex.namedClassPath" value="maven.test.classpath" />
 									<param name="japex.resultUnit" value="ms" />
 									<param name="japex.warmupIterations" value="10000" />
