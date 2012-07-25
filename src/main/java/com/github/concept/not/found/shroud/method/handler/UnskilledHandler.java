@@ -8,6 +8,6 @@ import java.util.List;
  */
 public interface UnskilledHandler {
 
-	Object handle(List<Object> originals, Method method, Object[] args);
+	Object handle(List<Object> originals, Method method, Object[] args) throws Exception;
 
 }
