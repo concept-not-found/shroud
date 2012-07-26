@@ -21,7 +21,7 @@ Shroud is a [Maven](http://maven.apache.org/) project.
 <dependency>
     <groupId>com.github.concept-not-found</groupId>
     <artifactId>shroud</artifactId>
-    <version>1</version>
+    <version>2</version>
 </dependency>
 ```
 
