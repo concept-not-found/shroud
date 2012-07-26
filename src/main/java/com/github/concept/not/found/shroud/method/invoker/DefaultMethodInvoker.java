@@ -7,7 +7,8 @@ import java.lang.reflect.Method;
  */
 public class DefaultMethodInvoker implements MethodInvoker {
 
-	public Object invoke(final Object target, final Method method, final Object[] parameters) throws Exception {
+	public Object invoke(final Object target, final Method method, final Object... parameters) throws Exception {
+		method.setAccessible(true);
 		return method.invoke(target, parameters);
 	}
 }

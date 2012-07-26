@@ -7,5 +7,5 @@ import java.lang.reflect.Method;
  */
 public interface MethodInvoker {
 
-	Object invoke(Object target, Method method, Object[] parameters) throws Exception;
+	Object invoke(Object target, Method method, Object... parameters) throws Exception;
 }
