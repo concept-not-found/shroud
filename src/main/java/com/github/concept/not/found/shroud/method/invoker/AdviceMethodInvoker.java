@@ -26,11 +26,7 @@ public class AdviceMethodInvoker implements MethodInvoker {
 					continue;
 				}
 
-				return adviceMethod.invoke(advice, new Object[] {
-					target,
-					method,
-					parameters
-				});
+				return adviceMethod.invoke(advice, target, method, parameters);
 			}
 		}
 		return method.invoke(target, parameters);
