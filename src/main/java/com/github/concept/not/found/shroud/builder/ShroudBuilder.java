@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.github.concept.not.found.shroud.Pretender;
-import com.github.concept.not.found.shroud.method.handler.DefaultUnskilledHandler;
+import com.github.concept.not.found.shroud.method.handler.JavaBeanUnskilledHandler;
 import com.github.concept.not.found.shroud.method.handler.UnskilledHandler;
 import com.github.concept.not.found.shroud.method.invoker.AdviceMethodInvoker;
 import com.github.concept.not.found.shroud.method.invoker.MethodInvoker;
@@ -43,7 +43,7 @@ public class ShroudBuilder {
 		final Proxy proxy = new CglibProxy();
 		final MethodInvoker methodInvoker = new AdviceMethodInvoker(advices);
 		final MethodResolver methodResolver = new ExposedMethodResolver(new ChainedMethodResolver(new MapMethodResolver(maps), new DefaultMethodResolver()), exposed);
-		final UnskilledHandler unskilledHandler = new DefaultUnskilledHandler();
+		final UnskilledHandler unskilledHandler = new JavaBeanUnskilledHandler();
 		return new Pretender(proxy, backingInstances, methodInvoker, methodResolver, unskilledHandler).pretend(interfaceClass);
 	}
 
