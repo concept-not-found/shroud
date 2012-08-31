@@ -3,11 +3,10 @@ package com.github.concept.not.found;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.lang.reflect.Field;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.junit.Test;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import com.github.concept.not.found.shroud.Shroud;
 
@@ -28,12 +27,6 @@ public class JavaBeanTest {
 
 		assertEquals("utf-8", request.getCharacterEncoding());
 		request.setCharacterEncoding("yoda-speak");
-		assertEquals("yoda-speak", getPropertyValue(properties, "characterEncoding"));
-	}
-
-	private Object getPropertyValue(final Object instance, final String fieldName) throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
-		final Field field = instance.getClass().getDeclaredField(fieldName);
-		field.setAccessible(true);
-		return field.get(instance);
+		assertEquals("yoda-speak", ReflectionTestUtils.getField(properties, "characterEncoding"));
 	}
 }
