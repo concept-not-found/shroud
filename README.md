@@ -21,7 +21,7 @@ Shroud is a [Maven](http://maven.apache.org/) project.
 <dependency>
     <groupId>com.github.concept-not-found</groupId>
     <artifactId>shroud</artifactId>
-    <version>2</version>
+    <version>3</version>
 </dependency>
 ```
 
@@ -87,6 +87,22 @@ Shroud is a [Maven](http://maven.apache.org/) project.
 	Setter setter = Shroud.shroud(computer).as(Setter.class);
 	setter.setAnswer("42");
 	assertEquals("42", getter.getAnswer());
+```
+
+### Back existing JavaBeans without the boilerplate
+```java
+	public class PropertiesOnly {
+		private final boolean secure = true;
+		private final String characterEncoding = "utf-8";
+	}
+	...
+	PropertiesOnly properties = new PropertiesOnly();
+	HttpServletRequest request = Shroud.shroud(properties).as(HttpServletRequest.class);
+	assertTrue(request.isSecure());
+
+	assertEquals("utf-8", request.getCharacterEncoding());
+	request.setCharacterEncoding("yoda-speak");
+	assertEquals("yoda-speak", ReflectionTestUtils.getField(properties, "characterEncoding"));
 ```
 
 ### Aspect-oriented programming around advice
