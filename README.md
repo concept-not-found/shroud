@@ -142,7 +142,7 @@ Shroud is a [Maven](http://maven.apache.org/) project.
 
 ##Copyright and License
 <pre>
-Copyright 2012 Ronald Chen
+Copyright 2014 Ronald Chen
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
